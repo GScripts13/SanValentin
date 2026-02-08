@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi San Valentín 💖</title>
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',cursive;
+    background:linear-gradient(135deg,#ffc0cb,#ff69b4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+    text-align:center;
+    color:white;
+}
+
+/* TARJETA */
+.card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    max-width:420px;
+    animation:flotar 3s ease-in-out infinite;
+}
+@keyframes flotar{50%{transform:translateY(-10px);}}
+
+/* FOTO */
+.photo{
+    width:160px;height:160px;border-radius:50%;
+    object-fit:cover;border:5px solid white;
+    box-shadow:0 0 25px white;
+    animation:latido 2s infinite;
+}
+@keyframes latido{50%{transform:scale(1.08);}}
+
+/* NOMBRE BRILLO */
+.glow{
+    font-size:30px;font-weight:bold;
+    background:linear-gradient(90deg,#fff,#ffd1f0,#fff);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:shine 3s linear infinite;
+}
+@keyframes shine{to{background-position:200% center;}}
+
+button{
+    border:none;padding:12px 25px;
+    font-size:16px;border-radius:20px;
+    cursor:pointer;margin:5px;
+    transition:.3s;
+}
+#yesBtn{background:#ff1493;color:white;}
+#yesBtn:hover{transform:scale(1.2);}
+#noBtn{background:white;color:#ff1493;position:absolute;}
+
+/* EFECTOS */
+.heart,.sparkle,.petal{
+    position:absolute;
+    animation:float 6s linear infinite;
+}
+@keyframes float{
+    0%{transform:translateY(100vh);opacity:0;}
+    50%{opacity:1;}
+    100%{transform:translateY(-10vh);opacity:0;}
+}
+
+.cloudBox{
+    background:rgba(255,255,255,0.25);
+    padding:20px;
+    border-radius:30px;
+    margin:15px;
+    max-width:700px;
+    box-shadow:0 0 20px rgba(255,255,255,0.5);
+}
+
+/* FUEGOS */
+.firework{
+    position:absolute;
+    width:5px;height:5px;
+    background:white;
+    border-radius:50%;
+    animation:explode 1s ease-out forwards;
+}
+@keyframes explode{
+    to{transform:translate(var(--x),var(--y));opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <img src="foto.jpg" class="photo">
+    <div class="glow">💖 Francesca 💖</div>
+    <p>Desde que llegaste, mi mundo tiene más colores…<br>
+    ¿Quieres ser mi San Valentín? 🌹</p>
+
+    <div style="position:relative;height:80px;">
+        <button id="yesBtn" onclick="sayYes()">¡SÍ! 💘</button>
+        <button id="noBtn" onmouseover="shrinkNo()">No 😢</button>
+    </div>
+</div>
+
+<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5bbf9c0a3f.mp3?filename=romantic-11157.mp3"></audio>
+
+<script>
+let noSize=16;
+function shrinkNo(){
+    const btn=document.getElementById("noBtn");
+    noSize-=2;if(noSize<8)noSize=8;
+    btn.style.fontSize=noSize+"px";
+    btn.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*100-50}px)`;
+}
+
+function sayYes(){
+    document.body.innerHTML+=`
+    <div style="position:absolute;top:20px;right:20px;">
+        <button onclick="document.getElementById('music').play()">🎵 Música</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;padding:20px;">
+        <img src="foto.jpg" style="width:180px;height:180px;border-radius:50%;border:5px solid white;box-shadow:0 0 25px white;margin-bottom:20px;">
+        <h1 style="font-size:40px;">💖 ¡Eres mi San Valentín! 💖</h1>
+
+        <div class="cloudBox">
+        Tus ojos iluminan mis días y tu sonrisa me hace sentir especial.
+        Contigo todo es más bonito.
+        </div>
+
+        <div class="cloudBox">
+        Te amo muchísimo ❤️  
+        Quiero llevarte a comer 🍝, al cine 🍿 o a donde tú quieras,
+        porque te mereces lo mejor ✨🌹
+        </div>
+    </div>`;
+    fireworks();
+}
+
+/* FUEGOS ARTIFICIALES */
+function fireworks(){
+    for(let i=0;i<30;i++){
+        const fw=document.createElement("div");
+        fw.className="firework";
+        fw.style.left=Math.random()*100+"vw";
+        fw.style.top=Math.random()*100+"vh";
+        fw.style.setProperty('--x',(Math.random()*200-100)+"px");
+        fw.style.setProperty('--y',(Math.random()*200-100)+"px");
+        document.body.appendChild(fw);
+        setTimeout(()=>fw.remove(),1000);
+    }
+}
+
+/* EFECTOS */
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";h.innerHTML="💗";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},200);
+
+setInterval(()=>{
+    const p=document.createElement("div");
+    p.className="petal";p.innerHTML="🌸";
+    p.style.left=Math.random()*100+"vw";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),6000);
+},400);
+</script>
+
+</body>
+</html>
